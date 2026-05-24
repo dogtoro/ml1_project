@@ -10,7 +10,7 @@ This project builds a Machine Learning model to predict the selling price of use
 Detailed Workflow Explanation (Cell by Cell)
 
 
-Cell 1: Exploratory Data Analysis (EDA) & Data Cleaning
+## Cell 1: Exploratory Data Analysis (EDA) & Data Cleaning
 Objective: Convert raw data into a standard format and handle Missing Values.
 Steps taken:
 
@@ -27,7 +27,7 @@ clean_title: Filled with 'Yes' (The vast majority of cars have clean titles).
 Visualization (EDA): Plotted the initial distribution of car prices and a scatter plot showing the relationship between Mileage and Price.
 
 
-Cell 2: Feature Engineering & Outliers
+## Cell 2: Feature Engineering & Outliers
 Objective: Create more meaningful variables and remove noise to help the model learn more effectively.
 
 Steps taken:
@@ -39,7 +39,7 @@ Feature Engineering: Created a car_age column by subtracting the model_year from
 Data Encoding (Label Encoding): Converted all categorical columns (text data such as brand, fuel_type, transmission, etc.) into numerical values using Scikit-learn's LabelEncoder.
 
 
-Cell 3: Modeling & Evaluation
+## Cell 3: Modeling & Evaluation
 Objective: Discover the underlying patterns between the input features and car prices.
 Steps taken:
 
@@ -47,9 +47,23 @@ Separated the dataset into independent variables X (features) and the dependent 
 Split the dataset into two parts: 80% for training (Train) and 20% for testing (Test).
 Trained the Random Forest Regressor algorithm using 100 decision trees (n_estimators=100).
 Result: The model achieved an R-squared ($R^2$) score of approximately 0.83, meaning it can explain over 83% of the variance in car prices. The Mean Absolute Error (MAE) is roughly $6,200.
+##  Algorithm Model: Random Forest Regressor
+
+The project utilizes the **Random Forest Regressor** algorithm. This is an Ensemble Learning algorithm that provides high accuracy and is exceptionally well-suited for tabular data.
+
+### 1. How It Works
+Instead of building a single mathematical equation, Random Forest creates a "committee" consisting of hundreds of smaller models called **Decision Trees**:
+*   **Building the "Forest":** The model in this project is configured with 100 decision trees (`n_estimators=100`).
+*   **Randomness to Prevent Overfitting:** Each tree is trained on a random subset of the data (Bootstrapping) and is only allowed to consider a random subset of features when making a splitting decision. This forces the trees to learn independent patterns, avoiding rote memorization (overfitting).
+*   **Aggregation:** When a new car's data is inputted, all 100 trees make their individual predictions. The final price returned by the model is the **average (mean)** of the predictions from all 100 trees.
+
+### 2. Why Choose Random Forest?
+*   **No Scaling Needed:** Columns like `milage` (reaching hundreds of thousands) and `car_age` (ranging from 1 to 20) have a massive difference in scale. Random Forest splits data based on conditional branching (e.g., `milage` > 50,000), so it is completely unaffected by the magnitude of the variables.
+*   **Handles Non-linear Relationships Well:** The depreciation of a car's value is not a steady straight line over the years. Random Forest is highly capable of capturing sharp price drops in the early years or price stabilization in later years.
+*   **Provides Feature Importance:** The algorithm automatically calculates the weight of each feature (e.g., pointing out that `milage` accounts for over 40% of the importance in pricing a car). This makes explaining the model to end-users (Explainable AI) transparent and straightforward.
 
 
-Cell 4: Visualizing Results
+## Cell 4: Visualizing Results
 Objective: Visually illustrate the model's performance and extract actionable insights.
 Steps taken:
 
